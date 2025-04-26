@@ -4,6 +4,9 @@ A modern web application for managing healthcare clients and programs. Built wit
 
 ## D-C-MS = Doctor's Client Management System
 
+![Project Dashboard](https://github.com/CamreshJames/D-C-MS/blob/main/static/img/Dashboard.png)
+*Caption: Overview of the main dashboard.*
+
 ## Features
 
 - Create and manage health programs (TB, Malaria, HIV, etc.)
@@ -130,4 +133,4 @@ Public
 
 James Mwangi - [Portfolio](https://james-mwangi-njenga.vercel.app/)
 
-Project Link After Hosting :[D-C-MS] (https://doctor-client-management-system.vercel.app/)
+Project Link After Hosting : [D-C-MS](https://doctor-client-management-system.vercel.app/)
