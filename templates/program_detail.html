@@ -1,0 +1,134 @@
+
+<!-- templates/program_detail.html -->
+{% extends "base.html" %}
+
+{% block title %}{{ program.name }} - Doctor's Client Management System{% endblock %}
+
+{% block page_title %}Program Details{% endblock %}
+
+{% block top_actions %}
+<a href="/programs" class="btn secondary-btn">
+    <i class='bx bx-arrow-back'></i>
+    <span>Back to Programs</span>
+</a>
+<a href="/programs/{{ program.id }}/edit" class="btn primary-btn">
+    <i class='bx bx-edit'></i>
+    <span>Edit Program</span>
+</a>
+{% endblock %}
+
+{% block content %}
+<div class="program-details">
+    <div class="card">
+        <div class="card-header program-header">
+            <div class="program-icon">
+                <i class='bx bx-clipboard'></i>
+            </div>
+            <div class="program-info">
+                <h2>{{ program.name }}</h2>
+                <span class="status-badge {% if program.status == 'Active' %}active{% else %}inactive{% endif %}">
+                    {{ program.status }}
+                </span>
+            </div>
+            <div class="program-actions">
+                <button class="action-btn delete-btn" 
+                        data-id="{{ program.id }}" 
+                        data-name="{{ program.name }}"
+                        data-type="program"
+                        title="Delete Program">
+                    <i class='bx bx-trash'></i>
+                </button>
+            </div>
+        </div>
+        
+        <div class="card-content">
+            <div class="info-section">
+                <div class="info-group full-width">
+                    <span class="info-label">Description</span>
+                    <p class="info-value description">{{ program.description }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card enrollments-card">
+        <div class="card-header">
+            <h3>Enrolled Clients</h3>
+        </div>
+        
+        <div class="card-content">
+            {% if enrollments %}
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Client</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for enrollment in enrollments %}
+                        <tr>
+                            <td>{{ enrollment.client_name }}</td>
+                            <td>
+                                <span class="status-badge {% if enrollment.status == 'Active' %}active{% else %}inactive{% endif %}">
+                                    {{ enrollment.status }}
+                                </span>
+                            </td>
+                            <td class="actions">
+                                <a href="/clients/{{ enrollment.client_id }}" class="action-btn view-btn" title="View Client">
+                                    <i class='bx bx-user'></i>
+                                </a>
+                                <a href="/enrollments/{{ enrollment.id }}/edit" class="action-btn edit-btn" title="Edit Enrollment">
+                                    <i class='bx bx-edit'></i>
+                                </a>
+                                <button class="action-btn delete-btn"
+                                        data-id="{{ enrollment.id }}"
+                                        data-name="{{ enrollment.client_name }}'s Enrollment"
+                                        data-type="enrollment"
+                                        title="Delete Enrollment">
+                                    <i class='bx bx-trash'></i>
+                                </button>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <div class="empty-state">
+                <i class='bx bx-user'></i>
+                <h3>No Enrollments</h3>
+                <p>There are no clients enrolled in this program yet.</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div id="delete-modal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Confirm Deletion</h3>
+            <button class="close-modal">&times;</button>
+        </div>
+        <div class="modal-body">
+            <p>Are you sure you want to delete <span id="delete-item-name"></span>?</p>
+            <p class="warning">This action cannot be undone.</p>
+            <p id="delete-error" class="error hidden">This program cannot be deleted because it has active enrollments.</p>
+        </div>
+        <div class="modal-footer">
+            <button class="btn outline-btn" id="cancel-delete">Cancel</button>
+            <form id="delete-form" method="post">
+                <button type="submit" class="btn danger-btn">Delete</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="/static/js/confirm-delete.js"></script>
+{% endblock %}

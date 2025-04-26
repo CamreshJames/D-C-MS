@@ -1,0 +1,45 @@
+
+<!-- templates/client_search.html -->
+{% extends "base.html" %}
+
+{% block title %}Search Clients - Doctor's Client Management System{% endblock %}
+
+{% block page_title %}Client Search{% endblock %}
+
+{% block top_actions %}
+<a href="/clients" class="btn secondary-btn">
+    <i class='bx bx-arrow-back'></i>
+    <span>Back to Clients</span>
+</a>
+{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h2>Search Clients</h2>
+    </div>
+    
+    <div class="card-content">
+        <form method="post" class="form search-form">
+            <div class="search-container">
+                <div class="form-group search-input-group">
+                    <input type="text" id="search_term" name="search_term" placeholder="Search by name or contact number..." required>
+                    <button type="submit" class="btn primary-btn">
+                        <i class='bx bx-search'></i>
+                        <span>Search</span>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="search-tips">
+                <h4>Search Tips:</h4>
+                <ul>
+                    <li>Search by first name, last name, or contact number</li>
+                    <li>Searches are case-insensitive</li>
+                    <li>Partial matches are supported</li>
+                </ul>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

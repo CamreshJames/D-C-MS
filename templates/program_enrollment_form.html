@@ -1,0 +1,81 @@
+<!-- templates/program_enrollment_form.html -->
+{% extends "base.html" %}
+
+{% block title %}New Program Enrollment - Doctor's Client Management System{% endblock %}
+
+{% block page_title %}New Program Enrollment{% endblock %}
+
+{% block top_actions %}
+<a href="/clients/{{ client.id }}" class="btn secondary-btn">
+    <i class='bx bx-arrow-back'></i>
+    <span>Back to Client</span>
+</a>
+{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h2>Enroll {{ client.first_name }} {{ client.last_name }} in a Program</h2>
+    </div>
+    
+    <div class="card-content">
+        <form method="post" action="/enrollments/new" class="form">
+            <input type="hidden" name="client_id" value="{{ client.id }}">
+            
+            <div class="form-group">
+                <label for="program_id">Select Program</label>
+                <select id="program_id" name="program_id" required>
+                    <option value="">Select a Program</option>
+                    {% for program in programs %}
+                    {% if program.status == 'Active' %}
+                    <option value="{{ program.id }}">{{ program.name }}</option>
+                    {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+            
+            <div id="program-details" class="program-details hidden">
+                <div class="info-group full-width">
+                    <span class="info-label">Description</span>
+                    <p class="info-value description" id="program-description"></p>
+                </div>
+            </div>
+            
+            <div class="form-actions">
+                <button type="button" class="btn outline-btn" onclick="window.history.back()">Cancel</button>
+                <button type="submit" class="btn primary-btn">Enroll Client</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const programSelect = document.getElementById('program_id');
+    const programDetails = document.getElementById('program-details');
+    const programDescription = document.getElementById('program-description');
+    
+    // Program data
+    const programs = {{ programs|tojson }};
+    
+    programSelect.addEventListener('change', function() {
+        const selectedProgramId = this.value;
+        
+        if (selectedProgramId) {
+            const selectedProgram = programs.find(p => p.id === selectedProgramId);
+            
+            if (selectedProgram) {
+                programDescription.textContent = selectedProgram.description;
+                programDetails.classList.remove('hidden');
+            } else {
+                programDetails.classList.add('hidden');
+            }
+        } else {
+            programDetails.classList.add('hidden');
+        }
+    });
+});
+</script>
+{% endblock %}

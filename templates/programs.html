@@ -1,0 +1,99 @@
+
+<!-- templates/programs.html -->
+{% extends "base.html" %}
+
+{% block title %}Programs - Doctor's Client Management System{% endblock %}
+
+{% block page_title %}Programs Management{% endblock %}
+
+{% block top_actions %}
+<a href="/programs/new" class="btn primary-btn">
+    <i class='bx bx-plus-circle'></i>
+    <span>Add New Program</span>
+</a>
+{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h2>All Programs</h2>
+    </div>
+    
+    <div class="card-content">
+        {% if programs %}
+        <div class="table-container">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for program in programs %}
+                    <tr>
+                        <td>{{ program.name }}</td>
+                        <td>{{ program.description }}</td>
+                        <td>
+                            <span class="status-badge {% if program.status == 'Active' %}active{% else %}inactive{% endif %}">
+                                {{ program.status }}
+                            </span>
+                        </td>
+                        <td class="actions">
+                            <a href="/programs/{{ program.id }}" class="action-btn view-btn" title="View Program">
+                                <i class='bx bx-show'></i>
+                            </a>
+                            <a href="/programs/{{ program.id }}/edit" class="action-btn edit-btn" title="Edit Program">
+                                <i class='bx bx-edit'></i>
+                            </a>
+                            <button class="action-btn delete-btn" 
+                                    data-id="{{ program.id }}" 
+                                    data-name="{{ program.name }}"
+                                    data-type="program"
+                                    title="Delete Program">
+                                <i class='bx bx-trash'></i>
+                            </button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="empty-state">
+            <i class='bx bx-clipboard'></i>
+            <h3>No Programs Found</h3>
+            <p>There are no programs in the system yet.</p>
+            <a href="/programs/new" class="btn primary-btn">Add New Program</a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div id="delete-modal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Confirm Deletion</h3>
+            <button class="close-modal">&times;</button>
+        </div>
+        <div class="modal-body">
+            <p>Are you sure you want to delete <span id="delete-item-name"></span>?</p>
+            <p class="warning">This action cannot be undone.</p>
+            <p id="delete-error" class="error hidden">This program cannot be deleted because it has active enrollments.</p>
+        </div>
+        <div class="modal-footer">
+            <button class="btn outline-btn" id="cancel-delete">Cancel</button>
+            <form id="delete-form" method="post">
+                <button type="submit" class="btn danger-btn">Delete</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="/static/js/confirm-delete.js"></script>
+{% endblock %}

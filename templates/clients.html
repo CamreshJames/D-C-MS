@@ -1,0 +1,111 @@
+<!-- templates/clients.html -->
+{% extends "base.html" %}
+
+{% block title %}Clients - Doctor's Client Management System{% endblock %}
+
+{% block page_title %}Clients Management{% endblock %}
+
+{% block top_actions %}
+<a href="/clients/new" class="btn primary-btn">
+    <i class='bx bx-user-plus'></i>
+    <span>Add New Client</span>
+</a>
+<a href="/search/clients" class="btn secondary-btn">
+    <i class='bx bx-search'></i>
+    <span>Search</span>
+</a>
+{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        {% if search_term %}
+        <h2>Search Results for "{{ search_term }}"</h2>
+        <a href="/clients" class="btn outline-btn">
+            <i class='bx bx-arrow-back'></i>
+            <span>Back to All Clients</span>
+        </a>
+        {% else %}
+        <h2>All Clients</h2>
+        {% endif %}
+    </div>
+    
+    <div class="card-content">
+        {% if clients %}
+        <div class="table-container">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Gender</th>
+                        <th>Date of Birth</th>
+                        <th>Contact</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for client in clients %}
+                    <tr>
+                        <td>{{ client.first_name }} {{ client.last_name }}</td>
+                        <td>{{ client.gender }}</td>
+                        <td>{{ client.date_of_birth }}</td>
+                        <td>{{ client.contact_number }}</td>
+                        <td class="actions">
+                            <a href="/clients/{{ client.id }}" class="action-btn view-btn" title="View Client">
+                                <i class='bx bx-show'></i>
+                            </a>
+                            <a href="/clients/{{ client.id }}/edit" class="action-btn edit-btn" title="Edit Client">
+                                <i class='bx bx-edit'></i>
+                            </a>
+                            <button class="action-btn delete-btn" 
+                                    data-id="{{ client.id }}" 
+                                    data-name="{{ client.first_name }} {{ client.last_name }}"
+                                    data-type="client"
+                                    title="Delete Client">
+                                <i class='bx bx-trash'></i>
+                            </button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="empty-state">
+            <i class='bx bx-user-x'></i>
+            <h3>No Clients Found</h3>
+            {% if search_term %}
+            <p>No clients match your search criteria.</p>
+            {% else %}
+            <p>There are no clients in the system yet.</p>
+            {% endif %}
+            <a href="/clients/new" class="btn primary-btn">Add New Client</a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div id="delete-modal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Confirm Deletion</h3>
+            <button class="close-modal">&times;</button>
+        </div>
+        <div class="modal-body">
+            <p>Are you sure you want to delete <span id="delete-item-name"></span>?</p>
+            <p class="warning">This action cannot be undone.</p>
+        </div>
+        <div class="modal-footer">
+            <button class="btn outline-btn" id="cancel-delete">Cancel</button>
+            <form id="delete-form" method="post">
+                <button type="submit" class="btn danger-btn">Delete</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="/static/js/confirm-delete.js"></script>
+{% endblock %}

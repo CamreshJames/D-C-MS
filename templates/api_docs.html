@@ -1,0 +1,327 @@
+<!-- templates/api_docs.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Documentation</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 25px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #007bff;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+        h2 {
+            color: #17a2b8;
+            margin-top: 30px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+        }
+        .endpoint {
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #fdfdff;
+            border: 1px solid #e9ecef;
+            border-radius: 5px;
+        }
+        .endpoint-path {
+            font-family: "Courier New", Courier, monospace;
+            background-color: #e9ecef;
+            padding: 3px 6px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        .method {
+            font-weight: bold;
+            color: #ffffff;
+            padding: 3px 8px;
+            border-radius: 4px;
+            margin-right: 10px;
+        }
+        .get { background-color: #28a745; } /* Green for GET */
+        .description {
+            margin-top: 10px;
+            margin-bottom: 15px;
+            color: #555;
+        }
+        strong {
+            color: #343a40;
+        }
+        pre {
+            background-color: #212529; /* Dark background for code */
+            color: #f8f9fa; /* Light text */
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto; /* Handle long lines */
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+            font-size: 0.9em;
+        }
+        code {
+            font-family: inherit; /* Use the font from <pre> */
+        }
+        .parameter, .auth, .response, .errors {
+             margin-bottom: 10px;
+        }
+        .param-type {
+            font-style: italic;
+            color: #6c757d;
+        }
+        .required {
+            color: #dc3545;
+            font-weight: bold;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            margin-bottom: 15px;
+        }
+        th, td {
+            border: 1px solid #dee2e6;
+            padding: 8px 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #f1f3f5;
+            font-weight: bold;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>API Documentation</h1>
+
+        <p>Welcome to the API documentation. All endpoints listed below require an API key for authentication.</p>
+
+        <!-- Endpoint 1: Dashboard Data -->
+        <div class="endpoint">
+            <h2><span class="method get">GET</span> <span class="endpoint-path">/api/dashboard-data</span></h2>
+            <p class="description">Retrieves summary statistics for the dashboard (client count, program count, total enrollments).</p>
+
+            <div class="auth">
+                <strong>Authentication:</strong> Required. API Key must be provided as a query parameter.
+            </div>
+
+            <div class="parameters">
+                <strong>Query Parameters:</strong>
+                 <table>
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Type</th>
+                            <th>Required</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>api_key</code></td>
+                            <td class="param-type">string</td>
+                            <td class="required">Yes</td>
+                            <td>Your assigned API key.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="response">
+                <strong>Success Response (200 OK):</strong>
+                <pre><code>{
+  "client_count": 15,
+  "program_count": 5,
+  "enrollment_count": 42
+}</code></pre>
+            </div>
+             <div class="errors">
+                <strong>Error Responses:</strong>
+                <ul>
+                    <li><strong>401 Unauthorized:</strong> If the `api_key` is missing or invalid.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Endpoint 2: List Clients -->
+        <div class="endpoint">
+            <h2><span class="method get">GET</span> <span class="endpoint-path">/api/clients</span></h2>
+            <p class="description">Retrieves a list of all clients. Internal database `_id` fields are excluded from the response.</p>
+
+            <div class="auth">
+                <strong>Authentication:</strong> Required. API Key must be provided as a query parameter.
+            </div>
+
+             <div class="parameters">
+                <strong>Query Parameters:</strong>
+                 <table>
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Type</th>
+                            <th>Required</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>api_key</code></td>
+                            <td class="param-type">string</td>
+                            <td class="required">Yes</td>
+                            <td>Your assigned API key.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="response">
+                <strong>Success Response (200 OK):</strong>
+                <pre><code>[
+  {
+    "id": "client_abc123",
+    "first_name": "John",
+    "last_name": "Doe",
+    "email": "john.doe@example.com",
+    "phone": "555-1234",
+    "date_added": "2023-10-27T10:00:00Z"
+    // ... other client fields ...
+  },
+  {
+    "id": "client_xyz789",
+    "first_name": "Jane",
+    "last_name": "Smith",
+    "email": "jane.smith@example.com",
+    "phone": "555-5678",
+    "date_added": "2023-10-26T15:30:00Z"
+    // ... other client fields ...
+  }
+  // ... more clients
+]</code></pre>
+            </div>
+            <div class="errors">
+                <strong>Error Responses:</strong>
+                <ul>
+                    <li><strong>401 Unauthorized:</strong> If the `api_key` is missing or invalid.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Endpoint 3: Get Specific Client -->
+        <div class="endpoint">
+            <h2><span class="method get">GET</span> <span class="endpoint-path">/api/clients/{client_id}</span></h2>
+            <p class="description">Retrieves detailed information for a specific client, including their program enrollments. Internal database `_id` fields are excluded.</p>
+
+            <div class="auth">
+                <strong>Authentication:</strong> Required. API Key must be provided as a query parameter.
+            </div>
+
+            <div class="parameters">
+                <strong>Path Parameters:</strong>
+                 <table>
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Type</th>
+                            <th>Required</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>client_id</code></td>
+                            <td class="param-type">string</td>
+                            <td class="required">Yes</td>
+                            <td>The unique identifier of the client to retrieve.</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <strong>Query Parameters:</strong>
+                 <table>
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Type</th>
+                            <th>Required</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>api_key</code></td>
+                            <td class="param-type">string</td>
+                            <td class="required">Yes</td>
+                            <td>Your assigned API key.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="response">
+                <strong>Success Response (200 OK):</strong>
+                <pre><code>{
+  "id": "client_abc123",
+  "first_name": "John",
+  "last_name": "Doe",
+  "email": "john.doe@example.com",
+  "phone": "555-1234",
+  "date_added": "2023-10-27T10:00:00Z",
+  // ... other client fields ...
+  "enrollments": [
+    {
+      "id": "enroll_jkl456",
+      "enrollment_date": "2023-11-01T09:00:00Z",
+      "status": "Active",
+      "program": {
+        "id": "prog_uvw987",
+        "name": "Advanced Web Development",
+        "description": "Master modern web technologies.",
+        "status": "Active"
+        // ... other program fields ...
+      }
+    },
+    {
+      "id": "enroll_mno789",
+      "enrollment_date": "2023-05-15T14:30:00Z",
+      "status": "Completed",
+      "program": {
+        "id": "prog_rst123",
+        "name": "Introduction to Python",
+        "description": "Learn the basics of Python programming.",
+        "status": "Inactive"
+         // ... other program fields ...
+      }
+    }
+    // ... more enrollments for this client
+  ]
+}</code></pre>
+            </div>
+
+            <div class="errors">
+                <strong>Error Responses:</strong>
+                <ul>
+                    <li><strong>401 Unauthorized:</strong> If the `api_key` is missing or invalid.</li>
+                    <li><strong>404 Not Found:</strong> If a client with the specified <code>client_id</code> does not exist.</li>
+                </ul>
+            </div>
+        </div>
+
+    </div> <!-- /container -->
+</body>
+</html>

@@ -1,0 +1,51 @@
+
+<!-- templates/enrollment_form.html -->
+{% extends "base.html" %}
+
+{% block title %}Edit Enrollment - Doctor's Client Management System{% endblock %}
+
+{% block page_title %}Edit Program Enrollment{% endblock %}
+
+{% block top_actions %}
+<a href="/clients/{{ client.id }}" class="btn secondary-btn">
+    <i class='bx bx-arrow-back'></i>
+    <span>Back to Client</span>
+</a>
+{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h2>Edit Enrollment for {{ client.first_name }} {{ client.last_name }}</h2>
+    </div>
+    
+    <div class="card-content">
+        <form method="post" class="form">
+            <div class="form-group">
+                <label for="program_id">Program</label>
+                <select id="program_id" name="program_id" required>
+                    {% for program in programs %}
+                    <option value="{{ program.id }}" {% if program.id == current_program.id %}selected{% endif %}>
+                        {{ program.name }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="status">Status</label>
+                <select id="status" name="status" required>
+                    <option value="Active" {% if enrollment.status == 'Active' %}selected{% endif %}>Active</option>
+                    <option value="Inactive" {% if enrollment.status == 'Inactive' %}selected{% endif %}>Inactive</option>
+                    <option value="Completed" {% if enrollment.status == 'Completed' %}selected{% endif %}>Completed</option>
+                </select>
+            </div>
+            
+            <div class="form-actions">
+                <button type="button" class="btn outline-btn" onclick="window.history.back()">Cancel</button>
+                <button type="submit" class="btn primary-btn">Update Enrollment</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,58 @@
+
+<!-- templates/program_form.html -->
+{% extends "base.html" %}
+
+{% block title %}{% if edit %}Edit Program{% else %}New Program{% endif %} - Doctor's Client Management System{% endblock %}
+
+{% block page_title %}{% if edit %}Edit Program{% else %}Add New Program{% endif %}{% endblock %}
+
+{% block top_actions %}
+{% if edit %}
+<a href="/programs/{{ program.id }}" class="btn secondary-btn">
+    <i class='bx bx-arrow-back'></i>
+    <span>Back to Program</span>
+</a>
+{% else %}
+<a href="/programs" class="btn secondary-btn">
+    <i class='bx bx-arrow-back'></i>
+    <span>Back to Programs</span>
+</a>
+{% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h2>{% if edit %}Edit Program Information{% else %}Program Information{% endif %}</h2>
+    </div>
+    
+    <div class="card-content">
+        <form method="post" class="form">
+            <div class="form-group">
+                <label for="name">Program Name</label>
+                <input type="text" id="name" name="name" value="{% if edit %}{{ program.name }}{% endif %}" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea id="description" name="description" rows="4" required>{% if edit %}{{ program.description }}{% endif %}</textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="status">Status</label>
+                <select id="status" name="status" required>
+                    <option value="Active" {% if edit and program.status == 'Active' %}selected{% endif %}>Active</option>
+                    <option value="Inactive" {% if edit and program.status == 'Inactive' %}selected{% endif %}>Inactive</option>
+                </select>
+            </div>
+            
+            <div class="form-actions">
+                <button type="reset" class="btn outline-btn">Reset</button>
+                <button type="submit" class="btn primary-btn">
+                    {% if edit %}Update Program{% else %}Save Program{% endif %}
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

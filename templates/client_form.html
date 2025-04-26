@@ -1,0 +1,83 @@
+
+<!-- templates/client_form.html -->
+{% extends "base.html" %}
+
+{% block title %}{% if edit %}Edit Client{% else %}New Client{% endif %} - Doctor's Client Management System{% endblock %}
+
+{% block page_title %}{% if edit %}Edit Client{% else %}Add New Client{% endif %}{% endblock %}
+
+{% block top_actions %}
+{% if edit %}
+<a href="/clients/{{ client.id }}" class="btn secondary-btn">
+    <i class='bx bx-arrow-back'></i>
+    <span>Back to Client</span>
+</a>
+{% else %}
+<a href="/clients" class="btn secondary-btn">
+    <i class='bx bx-arrow-back'></i>
+    <span>Back to Clients</span>
+</a>
+{% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h2>{% if edit %}Edit Client Information{% else %}Client Information{% endif %}</h2>
+    </div>
+    
+    <div class="card-content">
+        <form method="post" class="form">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="first_name">First Name</label>
+                    <input type="text" id="first_name" name="first_name" value="{% if edit %}{{ client.first_name }}{% endif %}" required>
+                </div>
+                <div class="form-group">
+                    <label for="last_name">Last Name</label>
+                    <input type="text" id="last_name" name="last_name" value="{% if edit %}{{ client.last_name }}{% endif %}" required>
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="date_of_birth">Date of Birth</label>
+                    <input type="date" id="date_of_birth" name="date_of_birth" value="{% if edit %}{{ client.date_of_birth }}{% endif %}" required>
+                </div>
+                <div class="form-group">
+                    <label for="gender">Gender</label>
+                    <select id="gender" name="gender" required>
+                        <option value="">Select Gender</option>
+                        <option value="Male" {% if edit and client.gender == 'Male' %}selected{% endif %}>Male</option>
+                        <option value="Female" {% if edit and client.gender == 'Female' %}selected{% endif %}>Female</option>
+                        <option value="Other" {% if edit and client.gender == 'Other' %}selected{% endif %}>Other</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="contact_number">Contact Number</label>
+                    <input type="tel" id="contact_number" name="contact_number" value="{% if edit %}{{ client.contact_number }}{% endif %}" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" value="{% if edit %}{{ client.email }}{% endif %}">
+                </div>
+            </div>
+            
+            <div class="form-group full-width">
+                <label for="address">Address</label>
+                <textarea id="address" name="address" rows="3" required>{% if edit %}{{ client.address }}{% endif %}</textarea>
+            </div>
+            
+            <div class="form-actions">
+                <button type="reset" class="btn outline-btn">Reset</button>
+                <button type="submit" class="btn primary-btn">
+                    {% if edit %}Update Client{% else %}Save Client{% endif %}
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,101 @@
+<!-- templates/base.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Doctor's Client Management System{% endblock %}</title>
+    <!-- Boxicons CSS -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="shortcut icon" href="/static/img/favicon.png" type="image/x-icon">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/static/css/style.css">
+    {% block extra_css %}{% endblock %}
+</head>
+<body class="light-mode">
+    <div class="app-container">
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class='bx bx-plus-medical'></i>
+                    <span class="logo-text">DocCMS</span>
+                </div>
+                <button class="toggle-sidebar"><i class='bx bx-menu'></i></button>
+            </div>
+            
+            <ul class="nav-links">
+                <li>
+                    <a href="/" class="{% if request.url.path == '/' %}active{% endif %}">
+                        <i class='bx bx-home-alt'></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/clients" class="{% if '/clients' in request.url.path and not '/clients/new' in request.url.path %}active{% endif %}">
+                        <i class='bx bx-user'></i>
+                        <span>Clients</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/clients/new" class="{% if '/clients/new' in request.url.path %}active{% endif %}">
+                        <i class='bx bx-user-plus'></i>
+                        <span>Add Client</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/programs" class="{% if '/programs' in request.url.path and not '/programs/new' in request.url.path %}active{% endif %}">
+                        <i class='bx bx-clipboard'></i>
+                        <span>Programs</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/programs/new" class="{% if '/programs/new' in request.url.path %}active{% endif %}">
+                        <i class='bx bx-plus-circle'></i>
+                        <span>Add Program</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/search/clients" class="{% if '/search/clients' in request.url.path %}active{% endif %}">
+                        <i class='bx bx-search'></i>
+                        <span>Search</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/docs" class="{% if '/api/docs' in request.url.path %}active{% endif %}">
+                        <i class='bx bx-file'></i>
+                        <span>API Docs</span>
+                    </a>
+                </li>
+            </ul>
+            
+            <div class="sidebar-footer">
+                <button id="theme-toggle" class="theme-toggle">
+                    <i class='bx bx-moon'></i>
+                    <span>Dark Mode</span>
+                </button>
+                <a href="https://james-mwangi-njenga.vercel.app/" target="_blank">James Mwangi</a>
+
+            </div>
+        </nav>
+
+        <main class="content">
+            <header class="top-bar">
+                <div class="page-title">
+                    <h1>{% block page_title %}Dashboard{% endblock %}</h1>
+                </div>
+                <div class="top-bar-actions">
+                    {% block top_actions %}{% endblock %}
+                </div>
+            </header>
+
+            <div class="main-content">
+                {% block content %}{% endblock %}
+            </div>
+        </main>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="/static/js/main.js"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

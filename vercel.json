@@ -1,0 +1,21 @@
+{
+    "version": 2,
+    "devCommand": "uvicorn main:app --host 0.0.0.0 --port 8000",
+    "buildCommand": "pip install -r requirements.txt",
+    "builds": [
+      {
+        "src": "main.py",
+        "use": "@vercel/python",
+        "config": {
+          "runtime": "python3.9"
+        }
+      }
+    ],
+    "routes": [
+      {
+        "src": "/(.*)",
+        "dest": "main.py"
+      }
+    ]
+  }
+  
