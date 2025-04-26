@@ -65,6 +65,7 @@ pip install -r requirements.txt
 1. Rename `.env.example` to `.env`
 2. Update the MongoDB connection string and API key in the `.env` file
 
+# The following are the once I used incase you dont have access to mongo you can use mine
 ```
 MONGODB_URI=MONGODB_URI=mongodb+srv://cnjmtechnologiesinc:Fink-Hoes-73@cluster0.lnxkd.mongodb.net/D-C-MS
 
@@ -129,4 +130,4 @@ Public
 
 James Mwangi - [Portfolio](https://james-mwangi-njenga.vercel.app/)
 
-Project Link:[D-C-MS] https://doctor-client-management-system.vercel.app/ 
+Project Link After Hosting :[D-C-MS] (https://doctor-client-management-system.vercel.app/)
