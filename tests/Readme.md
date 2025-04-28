@@ -45,4 +45,4 @@ This directory contains automated tests for the main Doctor-Client Management Sy
 
 All 19 tests passed successfully as of the last run.
 
-![Successful Test Run](passed test.png)
+![Successful Test Run](https://github.com/CamreshJames/D-C-MS/blob/main/tests/passed%20test.png)
