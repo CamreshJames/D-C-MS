@@ -61,7 +61,7 @@ async def read_root(request: Request):
     # Get recent clients (last 3 added - assuming most recent are at the end of the list)
     recent_clients = clients[-3:] if len(clients) >= 3 else clients
     
-    return templates.TemplateResponse(
+    return templates.TemplateResponse(request,
         "index.html", 
         {
             "request": request,
@@ -77,13 +77,13 @@ async def read_root(request: Request):
 @app.get("/programs", response_class=HTMLResponse)
 async def list_programs(request: Request):
     programs = db.get_all_programs()
-    return templates.TemplateResponse(
+    return templates.TemplateResponse(request,
         "programs.html", {"request": request, "programs": programs}
     )
 
 @app.get("/programs/new", response_class=HTMLResponse)
 async def new_program_form(request: Request):
-    return templates.TemplateResponse("program_form.html", {"request": request})
+    return templates.TemplateResponse(request,"program_form.html", {"request": request})
 
 @app.post("/programs/new")
 async def create_program(
@@ -116,7 +116,7 @@ async def view_program(request: Request, program_id: str):
             enrollment["client_name"] = f"{client['first_name']} {client['last_name']}"
             enrollment["client_id"] = client["id"]
     
-    return templates.TemplateResponse(
+    return templates.TemplateResponse(request,
         "program_detail.html", 
         {
             "request": request, 
@@ -131,7 +131,7 @@ async def edit_program_form(request: Request, program_id: str):
     if not program:
         raise HTTPException(status_code=404, detail="Program not found")
     
-    return templates.TemplateResponse(
+    return templates.TemplateResponse(request,
         "program_form.html", {"request": request, "program": program, "edit": True}
     )
 
@@ -175,13 +175,13 @@ async def delete_program(program_id: str):
 @app.get("/clients", response_class=HTMLResponse)
 async def list_clients(request: Request):
     clients = db.get_all_clients()
-    return templates.TemplateResponse(
+    return templates.TemplateResponse(request,
         "clients.html", {"request": request, "clients": clients}
     )
 
 @app.get("/clients/new", response_class=HTMLResponse)
 async def new_client_form(request: Request):
-    return templates.TemplateResponse("client_form.html", {"request": request})
+    return templates.TemplateResponse(request,"client_form.html", {"request": request})
 
 @app.post("/clients/new")
 async def create_client(
@@ -218,7 +218,7 @@ async def view_client(request: Request, client_id: str):
     # Get all programs for enrollment options
     all_programs = db.get_all_programs()
     
-    return templates.TemplateResponse(
+    return templates.TemplateResponse(request,
         "client_detail.html", 
         {
             "request": request, 
@@ -234,7 +234,7 @@ async def edit_client_form(request: Request, client_id: str):
     if not client:
         raise HTTPException(status_code=404, detail="Client not found")
     
-    return templates.TemplateResponse(
+    return templates.TemplateResponse(request,
         "client_form.html", {"request": request, "client": client, "edit": True}
     )
 
@@ -276,7 +276,7 @@ async def delete_client(client_id: str):
 
 @app.get("/search/clients", response_class=HTMLResponse)
 async def search_clients_form(request: Request):
-    return templates.TemplateResponse("client_search.html", {"request": request})
+    return templates.TemplateResponse(request,"client_search.html", {"request": request})
 
 @app.post("/search/clients", response_class=HTMLResponse)
 async def search_clients(
@@ -293,7 +293,7 @@ async def search_clients(
     }
     clients = db.search_clients(query)
     
-    return templates.TemplateResponse(
+    return templates.TemplateResponse(request,
         "clients.html", 
         {
             "request": request, 
@@ -320,7 +320,7 @@ async def new_enrollment_form(request: Request, client_id: str):
             if isinstance(value, datetime):
                 program[key] = value.isoformat()
 
-    return templates.TemplateResponse(
+    return templates.TemplateResponse(request,
         "program_enrollment_form.html", 
         {
             "request": request, 
@@ -375,7 +375,7 @@ async def edit_enrollment_form(request: Request, enrollment_id: str):
     # Get all programs for dropdown
     all_programs = db.get_all_programs()
     
-    return templates.TemplateResponse(
+    return templates.TemplateResponse(request,
         "enrollment_form.html", 
         {
             "request": request, 
@@ -442,7 +442,7 @@ async def delete_enrollment(enrollment_id: str):
 # async def api_documentation(request: Request):
 #     """Serves the API documentation HTML page from the templates directory."""
 #     context = {"request": request}
-#     return templates.TemplateResponse("api_docs.html", context)
+#     return templates.TemplateResponse(request,"api_docs.html", context)
 
 @app.get("/api/dashboard-data")
 async def dashboard_data(api_key: str = Depends(get_api_key)):
